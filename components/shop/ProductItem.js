@@ -20,9 +20,9 @@ const ProductItem = (props) => {
   }
   //useForeground TouchableOpacity ripple effectini önde uygulanmasını sağlar
   return (
-    <View style={{ borderRadius: 10 }}>
+    <View style={styles.product}>
       <TouchableComp onPress={props.onViewDetail} useForeground>
-        <View style={styles.product}>
+        <View style={{ flex: 1 }}>
           <View style={styles.imageContainer}>
             <Image style={styles.image} source={{ uri: props.imageUrl }} />
           </View>
@@ -31,16 +31,43 @@ const ProductItem = (props) => {
             <Text style={styles.price}>${props.price.toFixed(2)}</Text>
           </View>
           <View style={styles.actions}>
-            <Button
-              color={Colors.primaryColor}
-              title="View Details"
+            <TouchableOpacity
+              style={{
+                backgroundColor: Colors.primaryColor,
+                borderRadius: 10,
+              }}
               onPress={props.onViewDetail}
-            />
-            <Button
-              color={Colors.primaryColor}
-              title="To Cart"
+              activeOpacity={0.8}
+            >
+              <Text
+                style={{
+                  color: "white",
+                  padding: 10,
+                  fontFamily: "poppins-bold",
+                }}
+              >
+                View Details
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={{
+                backgroundColor: Colors.primaryColor,
+                borderRadius: 10,
+              }}
               onPress={props.onAddToCart}
-            />
+              activeOpacity={0.8}
+            >
+              <Text
+                style={{
+                  color: "white",
+                  padding: 10,
+                  fontFamily: "poppins-bold",
+                }}
+              >
+                To Cart
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
       </TouchableComp>
@@ -58,16 +85,17 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     height: Dimensions.get("window").height * 0.35,
     margin: 20,
+    overflow: "hidden",
   },
   imageContainer: {
     width: "100%",
-    height: "60%",
+    height: "55%",
     borderTopRightRadius: 10,
     borderTopLeftRadius: 10,
     overflow: "hidden",
   },
-  details: { alignItems: "center", height: "20%", padding: 10 },
-  title: { fontSize: 18, marginVertical: 4, fontFamily: "poppins-bold" },
+  details: { alignItems: "center", height: "25%", padding: 10 },
+  title: { fontSize: 18, fontFamily: "poppins-bold" },
   price: { fontSize: 14, color: "#888", fontFamily: "poppins-italic" },
   actions: {
     flexDirection: "row",

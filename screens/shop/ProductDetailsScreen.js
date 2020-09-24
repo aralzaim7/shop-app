@@ -9,8 +9,10 @@ import {
   Dimensions,
 } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+
 import Colors from "../../constants/Colors";
+import * as cartActions from "../../store/actions/cart";
 
 const ProductDetailsScreen = (props) => {
   const productId = props.route.params.productId;
@@ -19,6 +21,8 @@ const ProductDetailsScreen = (props) => {
   const selectedProduct = useSelector((state) =>
     state.products.availableProducts.find((prod) => prod.id === productId)
   );
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     props.navigation.setOptions({
@@ -31,9 +35,22 @@ const ProductDetailsScreen = (props) => {
     <ScrollView>
       <Image style={styles.image} source={{ uri: selectedProduct.imageUrl }} />
       <View style={styles.actions}>
-        <TouchableOpacity onPress={() => {}}>
+        <TouchableOpacity
+          style={{
+            backgroundColor: Colors.primaryColor,
+            borderRadius: 10,
+          }}
+          onPress={() => {
+            dispatch(cartActions.addToCart(selectedProduct));
+          }}
+          activeOpacity={0.8}
+        >
           <Text
-            style={{ color: Colors.primaryColor, fontFamily: "poppins-bold" }}
+            style={{
+              color: "white",
+              padding: 10,
+              fontFamily: "poppins-bold",
+            }}
           >
             Add to Cart
           </Text>
