@@ -16,15 +16,15 @@ function ProductNavigator() {
             Platform.OS === "ios" ? "white" : Colors.primaryColor,
         },
         headerTitleStyle: {
-          /*fontFamily: "metropolis-bold"*/
+          fontFamily: "poppins-bold",
         },
         headerBackTitleStyle: {
-          /*fontFamily: "metropolis-italic"*/
+          fontFamily: "poppins-regular",
         },
         headerTintColor: Platform.OS === "ios" ? Colors.primaryColor : "white",
       }}
     >
-      <Stack.Screen name="Products" component={ProductOverView} />
+      <Stack.Screen name="All Products" component={ProductOverView} />
       <Stack.Screen name="ProductsDetails" component={ProductDetailsScreen} />
     </Stack.Navigator>
   );

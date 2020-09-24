@@ -1,19 +1,37 @@
-import React from "react";
-import { Text, StyleSheet, FlatList } from "react-native";
+import React, { useEffect } from "react";
+import { FlatList, Text } from "react-native";
 import { useSelector } from "react-redux";
 
+import ProductItem from "../../components/shop/ProductItem";
+
 const ProductOverView = (props) => {
+  useEffect(() => {
+    props.navigation.setOptions({
+      title: "All Products",
+    });
+  }, [props.navigation]);
+
   const products = useSelector((state) => state.products.availableProducts);
   return (
     <FlatList
       data={products}
-      renderItem={(itemData) => <Text>{itemData.item.title}</Text>}
+      renderItem={(itemData) => (
+        <ProductItem
+          title={itemData.item.title}
+          imageUrl={itemData.item.imageUrl}
+          price={itemData.item.price}
+          onViewDetail={() => {
+            props.navigation.navigate("ProductsDetails", {
+              productId: itemData.item.id,
+              productTitle: itemData.item.title,
+            });
+          }}
+          onAddToCart={() => {
+            console.log("Add to Cart");
+          }}
+        />
+      )}
     />
   );
 };
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
 export default ProductOverView;
