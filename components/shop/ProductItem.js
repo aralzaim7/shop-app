@@ -11,6 +11,7 @@ import {
   Platform,
 } from "react-native";
 import Colors from "../../constants/Colors";
+import CustomButton from "../../components/CustomButton";
 
 const ProductItem = (props) => {
   let TouchableComp = TouchableOpacity;
@@ -31,43 +32,10 @@ const ProductItem = (props) => {
             <Text style={styles.price}>${props.price.toFixed(2)}</Text>
           </View>
           <View style={styles.actions}>
-            <TouchableOpacity
-              style={{
-                backgroundColor: Colors.primaryColor,
-                borderRadius: 10,
-              }}
-              onPress={props.onViewDetail}
-              activeOpacity={0.8}
-            >
-              <Text
-                style={{
-                  color: "white",
-                  padding: 10,
-                  fontFamily: "poppins-bold",
-                }}
-              >
-                View Details
-              </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={{
-                backgroundColor: Colors.primaryColor,
-                borderRadius: 10,
-              }}
-              onPress={props.onAddToCart}
-              activeOpacity={0.8}
-            >
-              <Text
-                style={{
-                  color: "white",
-                  padding: 10,
-                  fontFamily: "poppins-bold",
-                }}
-              >
-                To Cart
-              </Text>
-            </TouchableOpacity>
+            <CustomButton onPress={props.onViewDetail}>
+              View Details
+            </CustomButton>
+            <CustomButton onPress={props.onAddToCart}>To Cart</CustomButton>
           </View>
         </View>
       </TouchableComp>

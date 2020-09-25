@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useSelector, useDispatch } from "react-redux";
+import CustomButton from "../../components/CustomButton.android";
 
 import Colors from "../../constants/Colors";
 import * as cartActions from "../../store/actions/cart";
@@ -35,26 +36,13 @@ const ProductDetailsScreen = (props) => {
     <ScrollView>
       <Image style={styles.image} source={{ uri: selectedProduct.imageUrl }} />
       <View style={styles.actions}>
-        <TouchableOpacity
-          style={{
-            backgroundColor: Colors.primaryColor,
-            borderRadius: 10,
-          }}
+        <CustomButton
           onPress={() => {
             dispatch(cartActions.addToCart(selectedProduct));
           }}
-          activeOpacity={0.8}
         >
-          <Text
-            style={{
-              color: "white",
-              padding: 10,
-              fontFamily: "poppins-bold",
-            }}
-          >
-            Add to Cart
-          </Text>
-        </TouchableOpacity>
+          Add to Cart
+        </CustomButton>
       </View>
       <Text style={styles.price}>${selectedProduct.price.toFixed(2)}</Text>
       <Text style={styles.description}>{selectedProduct.description}</Text>
