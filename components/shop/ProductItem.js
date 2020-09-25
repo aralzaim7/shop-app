@@ -22,7 +22,7 @@ const ProductItem = (props) => {
   return (
     <View style={styles.product}>
       <TouchableComp onPress={props.onViewDetail} useForeground>
-        <View style={{ flex: 1 }}>
+        <View>
           <View style={styles.imageContainer}>
             <Image style={styles.image} source={{ uri: props.imageUrl }} />
           </View>
@@ -94,14 +94,14 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 10,
     overflow: "hidden",
   },
-  details: { alignItems: "center", height: "25%", padding: 10 },
+  details: { alignItems: "center", height: "23%", padding: 10 },
   title: { fontSize: 18, fontFamily: "poppins-bold" },
   price: { fontSize: 14, color: "#888", fontFamily: "poppins-italic" },
   actions: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    height: "20%",
+    height: "22%",
     paddingHorizontal: 10,
   },
   image: {
