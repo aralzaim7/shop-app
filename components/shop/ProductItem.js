@@ -11,7 +11,7 @@ import {
   Platform,
 } from "react-native";
 import Colors from "../../constants/Colors";
-import CustomButton from "../../components/CustomButton";
+import CustomButton from "../../components/UI/CustomButton";
 
 const ProductItem = (props) => {
   let TouchableComp = TouchableOpacity;

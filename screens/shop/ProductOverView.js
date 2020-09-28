@@ -1,14 +1,38 @@
 import React, { useEffect } from "react";
-import { FlatList, Text } from "react-native";
+import { FlatList, Text, Platform } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
+import { HeaderButtons, Item } from "react-navigation-header-buttons";
 
 import ProductItem from "../../components/shop/ProductItem";
 import * as cartActions from "../../store/actions/cart";
+import HeaderButton from "../../components/UI/HeaderButton";
 
 const ProductOverView = (props) => {
   useEffect(() => {
     props.navigation.setOptions({
       title: "All Products",
+      headerRight: () => (
+        <HeaderButtons HeaderButtonComponent={HeaderButton}>
+          <Item
+            title="Cart"
+            iconName={Platform.OS === "android" ? "md-cart" : "ios-cart"}
+            onPress={() => {
+              props.navigation.navigate("Cart");
+            }}
+          />
+        </HeaderButtons>
+      ),
+      headerLeft: () => (
+        <HeaderButtons HeaderButtonComponent={HeaderButton}>
+          <Item
+            title="Menu"
+            iconName={Platform.OS === "android" ? "md-menu" : "ios-menu"}
+            onPress={() => {
+              props.navigation.toggleDrawer();
+            }}
+          />
+        </HeaderButtons>
+      ),
     });
   }, [props.navigation]);
 

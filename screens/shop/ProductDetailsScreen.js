@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useSelector, useDispatch } from "react-redux";
-import CustomButton from "../../components/CustomButton.android";
+import CustomButton from "../../components/UI/CustomButton";
 
 import Colors from "../../constants/Colors";
 import * as cartActions from "../../store/actions/cart";
