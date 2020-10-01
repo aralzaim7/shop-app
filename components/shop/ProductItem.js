@@ -22,7 +22,7 @@ const ProductItem = (props) => {
   //useForeground TouchableOpacity ripple effectini önde uygulanmasını sağlar
   return (
     <View style={styles.product}>
-      <TouchableComp onPress={props.onViewDetail} useForeground>
+      <TouchableComp onPress={props.onSelect} useForeground>
         <View>
           <View style={styles.imageContainer}>
             <Image style={styles.image} source={{ uri: props.imageUrl }} />
@@ -31,12 +31,7 @@ const ProductItem = (props) => {
             <Text style={styles.title}>{props.title}</Text>
             <Text style={styles.price}>${props.price.toFixed(2)}</Text>
           </View>
-          <View style={styles.actions}>
-            <CustomButton onPress={props.onViewDetail}>
-              View Details
-            </CustomButton>
-            <CustomButton onPress={props.onAddToCart}>To Cart</CustomButton>
-          </View>
+          <View style={styles.actions}>{props.children}</View>
         </View>
       </TouchableComp>
     </View>

@@ -6,6 +6,7 @@ import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import ProductItem from "../../components/shop/ProductItem";
 import * as cartActions from "../../store/actions/cart";
 import HeaderButton from "../../components/UI/HeaderButton";
+import CustomButton from "../../components/UI/CustomButton";
 
 const ProductOverView = (props) => {
   useEffect(() => {
@@ -56,7 +57,10 @@ const ProductOverView = (props) => {
           onAddToCart={() => {
             dispatch(cartActions.addToCart(itemData.item));
           }}
-        />
+        >
+          <CustomButton onPress={props.onViewDetail}>View Details</CustomButton>
+          <CustomButton onPress={props.onAddToCart}>To Cart</CustomButton>
+        </ProductItem>
       )}
     />
   );
