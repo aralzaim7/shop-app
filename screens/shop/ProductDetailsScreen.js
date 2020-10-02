@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useLayoutEffect } from "react";
 import {
   View,
   Text,
@@ -25,7 +25,7 @@ const ProductDetailsScreen = (props) => {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     props.navigation.setOptions({
       //title: selectedProduct.title,
       title: productTitle,

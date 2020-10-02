@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useLayoutEffect } from "react";
 import { FlatList, Text, Platform } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
@@ -9,7 +9,14 @@ import HeaderButton from "../../components/UI/HeaderButton";
 import CustomButton from "../../components/UI/CustomButton";
 
 const ProductOverView = (props) => {
-  useEffect(() => {
+  const selectItemHandler = (id, title) => {
+    props.navigation.navigate("ProductsDetails", {
+      productId: id,
+      productTitle: title,
+    });
+  };
+
+  useLayoutEffect(() => {
     props.navigation.setOptions({
       title: "All Products",
       headerRight: () => (
@@ -48,18 +55,24 @@ const ProductOverView = (props) => {
           title={itemData.item.title}
           imageUrl={itemData.item.imageUrl}
           price={itemData.item.price}
-          onViewDetail={() => {
-            props.navigation.navigate("ProductsDetails", {
-              productId: itemData.item.id,
-              productTitle: itemData.item.title,
-            });
-          }}
-          onAddToCart={() => {
-            dispatch(cartActions.addToCart(itemData.item));
+          onSelect={() => {
+            selectItemHandler(itemData.item.id, itemData.item.title);
           }}
         >
-          <CustomButton onPress={props.onViewDetail}>View Details</CustomButton>
-          <CustomButton onPress={props.onAddToCart}>To Cart</CustomButton>
+          <CustomButton
+            onPress={() => {
+              selectItemHandler(itemData.item.id, itemData.item.title);
+            }}
+          >
+            View Details
+          </CustomButton>
+          <CustomButton
+            onPress={() => {
+              dispatch(cartActions.addToCart(itemData.item));
+            }}
+          >
+            To Cart
+          </CustomButton>
         </ProductItem>
       )}
     />

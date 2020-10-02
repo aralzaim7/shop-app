@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useLayoutEffect } from "react";
 import { View, FlatList, Text } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
@@ -7,7 +7,7 @@ import HeaderButton from "../../components/UI/HeaderButton";
 import OrderItem from "../../components/shop/OrderItem";
 
 const OrdersScreen = (props) => {
-  useEffect(() => {
+  useLayoutEffect(() => {
     props.navigation.setOptions({
       title: "Your Orders",
       headerLeft: () => (

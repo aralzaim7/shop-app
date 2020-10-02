@@ -1,15 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useLayoutEffect } from "react";
 import { View, Text, StyleSheet, Button, FlatList } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 
 import CustomButton from "../../components/UI/CustomButton";
+import Card from "../../components/UI/Card";
 import Colors from "../../constants/Colors";
 import CartItem from "../../components/shop/CartItem";
 import * as cartActions from "../../store/actions/cart";
 import * as orderActions from "../../store/actions/order";
 
 const CartScreen = (props) => {
-  useEffect(() => {
+  useLayoutEffect(() => {
     props.navigation.setOptions({
       title: "Your Cart",
     });
@@ -36,10 +37,12 @@ const CartScreen = (props) => {
 
   return (
     <View style={styles.screen}>
-      <View style={styles.summary}>
+      <Card style={styles.summary}>
         <Text style={styles.summaryText}>
           Total:{" "}
-          <Text style={styles.amount}>${cartTotalAmount.toFixed(2)}</Text>
+          <Text style={styles.amount}>
+            ${Math.round(cartTotalAmount.toFixed(2) * 100) / 100}
+          </Text>
         </Text>
         <CustomButton
           style={{
@@ -53,7 +56,7 @@ const CartScreen = (props) => {
         >
           <Text style={{ textAlign: "center" }}>Order Now</Text>
         </CustomButton>
-      </View>
+      </Card>
       <FlatList
         data={cartItems}
         keyExtractor={(item) => item.productId}
@@ -82,13 +85,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginBottom: 20,
     padding: 10,
-    shadowColor: "black",
-    shadowOpacity: 0.26,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 8,
-    elevation: 5,
-    borderRadius: 10,
-    backgroundColor: "white",
   },
   summaryText: { fontFamily: "poppins-bold", fontSize: 18 },
   amount: { color: Colors.primaryColor },

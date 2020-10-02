@@ -10,6 +10,7 @@ import ProductDetailsScreen from "../screens/shop/ProductDetailsScreen";
 import CartScreen from "../screens/shop/CartScreen";
 import OrdersScreen from "../screens/shop/OrdersScreen";
 import UserProductsScreen from "../screens/user/UserProductsScreen";
+import EditProductScreen from "../screens/user/EditProductScreen";
 
 const ProductStack = createStackNavigator();
 
@@ -84,6 +85,10 @@ function AdminNavigator() {
       }}
     >
       <AdminStack.Screen name="UserProducts" component={UserProductsScreen} />
+      <AdminStack.Screen
+        name="EditProductScreen"
+        component={EditProductScreen}
+      />
     </AdminStack.Navigator>
   );
 }
