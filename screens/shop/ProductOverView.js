@@ -1,14 +1,31 @@
-import React, { useLayoutEffect } from "react";
-import { FlatList, Text, Platform } from "react-native";
+import React, {
+  useLayoutEffect,
+  useEffect,
+  useState,
+  useCallback,
+} from "react";
+import {
+  FlatList,
+  Text,
+  Platform,
+  ActivityIndicator,
+  View,
+  StyleSheet,
+} from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 
 import ProductItem from "../../components/shop/ProductItem";
 import * as cartActions from "../../store/actions/cart";
+import * as productActions from "../../store/actions/products";
 import HeaderButton from "../../components/UI/HeaderButton";
 import CustomButton from "../../components/UI/CustomButton";
+import Colors from "../../constants/Colors";
 
 const ProductOverView = (props) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState();
+
   const selectItemHandler = (id, title) => {
     props.navigation.navigate("ProductsDetails", {
       productId: id,
@@ -47,6 +64,60 @@ const ProductOverView = (props) => {
   const products = useSelector((state) => state.products.availableProducts);
   const dispatch = useDispatch();
 
+  const loadProducts = useCallback(async () => {
+    console.log("LOAD PRODUCTS");
+    setError(null);
+    setIsLoading(true);
+    try {
+      await dispatch(productActions.fetchProducts());
+    } catch (err) {
+      setError(err.message);
+    }
+    setIsLoading(false);
+  }, [dispatch, setIsLoading, setError]);
+
+  useEffect(() => {
+    const willFocusSub = props.navigation.addListener("focus", loadProducts);
+
+    console.log(willFocusSub);
+
+    return willFocusSub;
+  }, [loadProducts]);
+
+  useEffect(() => {
+    loadProducts();
+  }, [dispatch, loadProducts]);
+
+  if (error) {
+    return (
+      <View style={styles.centered}>
+        <Text style={{ fontFamily: "poppins-bold" }}>An error occured!</Text>
+        <CustomButton onPress={loadProducts}>
+          <Text>Try Again!</Text>
+        </CustomButton>
+      </View>
+    );
+  }
+  if (isLoading) {
+    return (
+      <View style={styles.centered}>
+        <ActivityIndicator
+          size="large"
+          color={Colors.primaryColor}
+        ></ActivityIndicator>
+      </View>
+    );
+  }
+
+  if (!isLoading && products.length === 0) {
+    return (
+      <View style={styles.centered}>
+        <Text style={{ fontFamily: "poppins-italic" }}>
+          No products found. Maybe start adding some
+        </Text>
+      </View>
+    );
+  }
   return (
     <FlatList
       data={products}
@@ -78,4 +149,9 @@ const ProductOverView = (props) => {
     />
   );
 };
+
+const styles = StyleSheet.create({
+  centered: { flex: 1, alignItems: "center", justifyContent: "center" },
+});
+
 export default ProductOverView;

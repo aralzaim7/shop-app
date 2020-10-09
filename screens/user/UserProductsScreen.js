@@ -1,5 +1,16 @@
-import React, { useLayoutEffect } from "react";
-import { StyleSheet, FlatList, Alert } from "react-native";
+import React, {
+  useLayoutEffect,
+  useEffect,
+  useState,
+  useCallback,
+} from "react";
+import {
+  StyleSheet,
+  FlatList,
+  Alert,
+  ActivityIndicator,
+  View,
+} from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 
@@ -7,9 +18,11 @@ import ProductItem from "../../components/shop/ProductItem";
 import HeaderButton from "../../components/UI/HeaderButton";
 import CustomButton from "../../components/UI/CustomButton";
 import Colors from "../../constants/Colors";
-import * as productsActions from "../../store/actions/products";
+import * as productActions from "../../store/actions/products";
 
 const UserProductsScreen = (props) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState();
   const useProducts = useSelector((state) => state.products.userProducts);
   const dispatch = useDispatch();
 
@@ -23,8 +36,15 @@ const UserProductsScreen = (props) => {
       {
         text: "Yes",
         style: "destructive",
-        onPress: () => {
-          dispatch(productsActions.deleteProduct(id));
+        onPress: async () => {
+          setError(null);
+          setIsLoading(true);
+          try {
+            await dispatch(productActions.deleteProduct(id));
+          } catch (err) {
+            setError(err.message);
+          }
+          setIsLoading(false);
         },
       },
     ]);
@@ -58,6 +78,47 @@ const UserProductsScreen = (props) => {
     });
   }, [props.navigation]);
 
+  useEffect(() => {
+    if (error) {
+      Alert.alert("An error occured!", error, [{ text: "Okay" }]);
+    }
+  }, [error]);
+
+  const loadProducts = useCallback(async () => {
+    console.log("LOAD PRODUCTS");
+    setError(null);
+    setIsLoading(true);
+    try {
+      await dispatch(productActions.fetchProducts());
+    } catch (err) {
+      setError(err.message);
+    }
+    setIsLoading(false);
+  }, [dispatch, setIsLoading, setError]);
+
+  useEffect(() => {
+    const willFocusSub = props.navigation.addListener("focus", loadProducts);
+
+    console.log(willFocusSub);
+
+    return willFocusSub;
+  }, [loadProducts]);
+
+  useEffect(() => {
+    loadProducts();
+  }, [dispatch, loadProducts]);
+
+  if (isLoading) {
+    return (
+      <View style={styles.centered}>
+        <ActivityIndicator
+          size="large"
+          color={Colors.primaryColor}
+        ></ActivityIndicator>
+      </View>
+    );
+  }
+
   return (
     <FlatList
       data={useProducts}
@@ -90,5 +151,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  centered: { flex: 1, justifyContent: "center", alignItems: "center" },
 });
 export default UserProductsScreen;

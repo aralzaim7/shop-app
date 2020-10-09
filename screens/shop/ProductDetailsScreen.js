@@ -34,7 +34,13 @@ const ProductDetailsScreen = (props) => {
 
   return (
     <ScrollView>
-      <Image style={styles.image} source={{ uri: selectedProduct.imageUrl }} />
+      <View style={{ flex: 1, backgroundColor: "white" }}>
+        <Image
+          style={styles.image}
+          source={{ uri: selectedProduct.imageUrl }}
+          resizeMode="contain"
+        />
+      </View>
       <View style={styles.actions}>
         <CustomButton
           onPress={() => {
