@@ -7,6 +7,7 @@ import {
   TouchableNativeFeedback,
   Platform,
   Button,
+  Dimensions,
 } from "react-native";
 
 import Colors from "../../constants/Colors";
@@ -35,8 +36,8 @@ const CustomButton = (props) => {
 const styles = StyleSheet.create({
   button: {
     backgroundColor: Colors.primaryColor,
-    paddingVertical: 10,
-    paddingHorizontal: 10,
+    paddingVertical: Dimensions.get("window").height * 0.01,
+    paddingHorizontal: Dimensions.get("window").width * 0.02,
     borderRadius: 10,
   },
   buttonText: {
