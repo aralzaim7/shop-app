@@ -24,6 +24,8 @@ import Colors from "../../constants/Colors";
 
 const ProductOverView = (props) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
   const [error, setError] = useState();
 
   const selectItemHandler = (id, title) => {
@@ -65,27 +67,31 @@ const ProductOverView = (props) => {
   const dispatch = useDispatch();
 
   const loadProducts = useCallback(async () => {
-    console.log("LOAD PRODUCTS");
     setError(null);
-    setIsLoading(true);
+    setIsRefreshing(true);
+    console.log("refreshing products..");
     try {
       await dispatch(productActions.fetchProducts());
     } catch (err) {
       setError(err.message);
     }
-    setIsLoading(false);
+    setIsRefreshing(false);
   }, [dispatch, setIsLoading, setError]);
 
+  // sayfaya her geldiğimde işletsin load products u derim
   useEffect(() => {
     const willFocusSub = props.navigation.addListener("focus", loadProducts);
 
-    console.log(willFocusSub);
+    //console.log(willFocusSub);
 
     return willFocusSub;
   }, [loadProducts]);
 
   useEffect(() => {
-    loadProducts();
+    setIsLoading(true);
+    loadProducts().then(() => {
+      setIsLoading(false);
+    });
   }, [dispatch, loadProducts]);
 
   if (error) {
@@ -120,6 +126,8 @@ const ProductOverView = (props) => {
   }
   return (
     <FlatList
+      refreshing={isRefreshing}
+      onRefresh={loadProducts}
       data={products}
       renderItem={(itemData) => (
         <ProductItem

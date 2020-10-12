@@ -42,7 +42,7 @@ export const fetchProducts = () => {
           )
         );
       }
-      console.log(resData);
+      //console.log(resData);
 
       dispatch({ type: SET_PRODUCTS, products: loadedProducts });
     } catch (err) {

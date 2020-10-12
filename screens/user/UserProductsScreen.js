@@ -85,7 +85,6 @@ const UserProductsScreen = (props) => {
   }, [error]);
 
   const loadProducts = useCallback(async () => {
-    console.log("LOAD PRODUCTS");
     setError(null);
     setIsLoading(true);
     try {
@@ -99,7 +98,7 @@ const UserProductsScreen = (props) => {
   useEffect(() => {
     const willFocusSub = props.navigation.addListener("focus", loadProducts);
 
-    console.log(willFocusSub);
+    //console.log(willFocusSub);
 
     return willFocusSub;
   }, [loadProducts]);

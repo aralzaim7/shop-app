@@ -1,5 +1,5 @@
-import React, { useLayoutEffect } from "react";
-import { View, Text, StyleSheet, Button, FlatList } from "react-native";
+import React, { useLayoutEffect, useState } from "react";
+import { View, Text, StyleSheet, Button, FlatList, ActivityIndicator } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 
 import CustomButton from "../../components/UI/CustomButton";
@@ -10,6 +10,10 @@ import * as cartActions from "../../store/actions/cart";
 import * as orderActions from "../../store/actions/order";
 
 const CartScreen = (props) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState();
+
+
   useLayoutEffect(() => {
     props.navigation.setOptions({
       title: "Your Cart",
@@ -35,6 +39,17 @@ const CartScreen = (props) => {
 
   const dispatch = useDispatch();
 
+  const sendOrderHandler = async () => {
+    setError(null);
+    setIsLoading(true);
+    try {
+      await dispatch(orderActions.addOrder(cartItems, cartTotalAmount));
+    } catch (err) {
+      setError(err.message);
+    }
+    setIsLoading(false);
+  }
+
   return (
     <View style={styles.screen}>
       <Card style={styles.summary}>
@@ -44,18 +59,18 @@ const CartScreen = (props) => {
             ${Math.round(cartTotalAmount.toFixed(2) * 100) / 100}
           </Text>
         </Text>
+        {isLoading ? <ActivityIndicator size='small' color={Colors.primaryColor} /> : 
         <CustomButton
           style={{
             backgroundColor:
               cartItems.length === 0 ? "gray" : Colors.accentColor,
           }}
           disabled={cartItems.length === 0}
-          onPress={() => {
-            dispatch(orderActions.addOrder(cartItems, cartTotalAmount));
-          }}
+          onPress={sendOrderHandler}
         >
           <Text style={{ textAlign: "center" }}>Order Now</Text>
         </CustomButton>
+  }
       </Card>
       <FlatList
         data={cartItems}
