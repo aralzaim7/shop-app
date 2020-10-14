@@ -97,7 +97,7 @@ const ProductOverView = (props) => {
   if (error) {
     return (
       <View style={styles.centered}>
-        <Text style={{ fontFamily: "poppins-bold" }}>An error occured!</Text>
+        <Text style={{ fontFamily: "poppins-bold" }}>{error}</Text>
         <CustomButton onPress={loadProducts}>
           <Text>Try Again!</Text>
         </CustomButton>

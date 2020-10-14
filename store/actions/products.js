@@ -7,11 +7,12 @@ export const SET_PRODUCTS = "SET_PRODUCTS";
 
 export const fetchProducts = () => {
   return async (dispatch, getState) => {
+    const token = getState().auth.token;
     const userId = getState().auth.userId;
     //any async code you want!!
     try {
       const response = await fetch(
-        "https://rn-shop-app-cefe7.firebaseio.com/products.json"
+        `https://rn-shop-app-cefe7.firebaseio.com/products.json?auth=${token}`
         /*{
           DEFAULT is GET
           method: "GET",
@@ -25,17 +26,17 @@ export const fetchProducts = () => {
       );
 
       if (!response.ok) {
-        throw new Error("Something went wrong");
+        throw new Error(response.message);
       }
       const resData = await response.json();
-      console.log(resData);
       const loadedProducts = [];
+      console.log(loadedProducts);
 
       for (const key in resData) {
         loadedProducts.push(
           new Product(
             key,
-            "u1",
+            resData[key].ownerId,
             resData[key].title,
             resData[key].imageUrl,
             resData[key].description,
@@ -43,7 +44,7 @@ export const fetchProducts = () => {
           )
         );
       }
-      //console.log(resData);
+      console.log(loadedProducts);
 
       dispatch({
         type: SET_PRODUCTS,
@@ -52,7 +53,7 @@ export const fetchProducts = () => {
       });
     } catch (err) {
       //send to custom analytics server
-      throw err;
+      throw new Error(err);
     }
   };
 };

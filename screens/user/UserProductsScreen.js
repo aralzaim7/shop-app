@@ -51,13 +51,6 @@ const UserProductsScreen = (props) => {
     ]);
   };
 
-  if (userProducts.length === 0) {
-    return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Text> No products found, maybe start creating time. </Text>
-      </View>
-    );
-  }
   useLayoutEffect(() => {
     props.navigation.setOptions({
       title: "Your Products",
@@ -114,6 +107,14 @@ const UserProductsScreen = (props) => {
   useEffect(() => {
     loadProducts();
   }, [dispatch, loadProducts]);
+
+  if (userProducts.length === 0) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <Text> No products found, maybe start creating time. </Text>
+      </View>
+    );
+  }
 
   if (isLoading) {
     return (

@@ -12,6 +12,7 @@ import {
   KeyboardAvoidingView,
   ActivityIndicator,
   Alert,
+  Platform,
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { LinearGradient } from "expo-linear-gradient";
@@ -121,8 +122,8 @@ const AuthScreen = (props) => {
   return (
     <KeyboardAvoidingView
       style={styles.screen}
-      behavior="padding"
-      keyboardVerticalOffset={100}
+      behavior={Platform.OS == "android" ? "height" : "padding"}
+      keyboardVerticalOffset={10}
     >
       <LinearGradient
         colors={[Colors.primaryColor, Colors.accentColor]}
@@ -164,6 +165,7 @@ const AuthScreen = (props) => {
                 style={{
                   backgroundColor: Colors.primaryColor,
                   alignItems: "center",
+                  textAlign: "center",
                   marginVertical: 10,
                 }}
                 onPress={authHandler}

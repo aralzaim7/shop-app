@@ -25,7 +25,7 @@ const CustomButton = (props) => {
         onPress={props.onPress}
         disabled={props.disabled}
       >
-        <View style={styles.button}>
+        <View style={{ ...styles.button, ...props.style }}>
           <Text style={styles.buttonText}>{props.children}</Text>
         </View>
       </ButtonComponent>
