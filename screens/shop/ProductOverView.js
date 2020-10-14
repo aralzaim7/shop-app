@@ -69,7 +69,7 @@ const ProductOverView = (props) => {
   const loadProducts = useCallback(async () => {
     setError(null);
     setIsRefreshing(true);
-    console.log("refreshing products..");
+    //console.log("refreshing products..");
     try {
       await dispatch(productActions.fetchProducts());
     } catch (err) {

@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { createStackNavigator, HeaderTitle } from "@react-navigation/stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Ionicons } from "@expo/vector-icons";
-
 import { Platform } from "react-native";
+import { useSelector, useDispatch } from "react-redux";
+
 import Colors from "../constants/Colors";
 import ProductOverView from "../screens/shop/ProductOverView";
 import ProductDetailsScreen from "../screens/shop/ProductDetailsScreen";
@@ -11,10 +12,13 @@ import CartScreen from "../screens/shop/CartScreen";
 import OrdersScreen from "../screens/shop/OrdersScreen";
 import UserProductsScreen from "../screens/user/UserProductsScreen";
 import EditProductScreen from "../screens/user/EditProductScreen";
+import AuthScreen from "../screens/user/AuthScreen";
 
 const ProductStack = createStackNavigator();
 
 function ProductNavigator() {
+  const userToken = useSelector((state) => state.auth.token);
+
   return (
     <ProductStack.Navigator
       screenOptions={{
@@ -31,12 +35,23 @@ function ProductNavigator() {
         headerTintColor: Platform.OS === "ios" ? Colors.primaryColor : "white",
       }}
     >
-      <ProductStack.Screen name="All Products" component={ProductOverView} />
-      <ProductStack.Screen
-        name="ProductsDetails"
-        component={ProductDetailsScreen}
-      />
-      <ProductStack.Screen name="Cart" component={CartScreen} />
+      {userToken ? (
+        <>
+          <ProductStack.Screen
+            name="All Products"
+            component={ProductOverView}
+          />
+          <ProductStack.Screen
+            name="ProductsDetails"
+            component={ProductDetailsScreen}
+          />
+          <ProductStack.Screen name="Cart" component={CartScreen} />
+        </>
+      ) : (
+        <>
+          <ProductStack.Screen name="Auth" component={AuthScreen} />
+        </>
+      )}
     </ProductStack.Navigator>
   );
 }

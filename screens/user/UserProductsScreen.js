@@ -8,6 +8,7 @@ import {
   StyleSheet,
   FlatList,
   Alert,
+  Text,
   ActivityIndicator,
   View,
 } from "react-native";
@@ -23,7 +24,7 @@ import * as productActions from "../../store/actions/products";
 const UserProductsScreen = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState();
-  const useProducts = useSelector((state) => state.products.userProducts);
+  const userProducts = useSelector((state) => state.products.userProducts);
   const dispatch = useDispatch();
 
   const editProductHandler = (id) => {
@@ -50,6 +51,13 @@ const UserProductsScreen = (props) => {
     ]);
   };
 
+  if (userProducts.length === 0) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <Text> No products found, maybe start creating time. </Text>
+      </View>
+    );
+  }
   useLayoutEffect(() => {
     props.navigation.setOptions({
       title: "Your Products",
@@ -120,7 +128,7 @@ const UserProductsScreen = (props) => {
 
   return (
     <FlatList
-      data={useProducts}
+      data={userProducts}
       keyExtractor={(item) => item.id}
       renderItem={(itemData) => (
         <ProductItem
