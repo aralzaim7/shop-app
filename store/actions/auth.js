@@ -1,5 +1,16 @@
-export const SIGNUP = "SIGNUP";
-export const LOGIN = "LOGIN";
+import { AsyncStorage } from "react-native";
+
+export const AUTHENTICATE = "AUTHENTICATE";
+export const SET_DID_TRY_AL = "SET_DID_TRY_AL";
+export const LOGOUT = "LOGOUT";
+
+export const authenticate = (userId, token) => {
+  return { type: AUTHENTICATE, userId: userId, token: token };
+};
+
+export const setDidTryAL = () => {
+  return { type: SET_DID_TRY_AL };
+};
 
 export const signup = (email, password) => {
   return async (dispatch) => {
@@ -34,11 +45,11 @@ export const signup = (email, password) => {
 
       //console.log(resData);
 
-      dispatch({
-        type: SIGNUP,
-        token: resData.idToken,
-        userId: resData.localId,
-      });
+      dispatch(authenticate(resData.localId, resData.idToken));
+
+      const expirationDate =
+        new Date().getTime() + parseInt(resData.expiresIn) * 1000;
+      saveDataToStorage(resData.idToken, resData.localId, expirationDate);
     } catch (err) {
       //send to custom analytics server
       throw err;
@@ -79,16 +90,32 @@ export const login = (email, password) => {
 
       const resData = await response.json();
 
-      //console.log(resData);
+      console.log(resData);
 
-      dispatch({
-        type: LOGIN,
-        token: resData.idToken,
-        userId: resData.localId,
-      });
+      dispatch(authenticate(resData.localId, resData.idToken));
+
+      const expirationDate = new Date(
+        new Date().getTime() + parseInt(resData.expiresIn) * 1000
+      );
+      saveDataToStorage(resData.idToken, resData.localId, expirationDate);
     } catch (err) {
       //send to custom analytics server
       throw err;
     }
   };
+};
+
+export const logout = () => {
+  return { type: LOGOUT };
+};
+
+const saveDataToStorage = (token, userId, expirationDate) => {
+  AsyncStorage.setItem(
+    "userData",
+    JSON.stringify({
+      token: token,
+      userId: userId,
+      expiryDate: expirationDate.toISOString(),
+    })
+  );
 };

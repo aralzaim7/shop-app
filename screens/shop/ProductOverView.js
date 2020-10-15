@@ -11,6 +11,7 @@ import {
   ActivityIndicator,
   View,
   StyleSheet,
+  AsyncStorage,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
@@ -64,6 +65,7 @@ const ProductOverView = (props) => {
   }, [props.navigation]);
 
   const products = useSelector((state) => state.products.availableProducts);
+
   const dispatch = useDispatch();
 
   const loadProducts = useCallback(async () => {
@@ -71,6 +73,7 @@ const ProductOverView = (props) => {
     setIsRefreshing(true);
     //console.log("refreshing products..");
     try {
+      console.log(AsyncStorage.getItem("userData"));
       await dispatch(productActions.fetchProducts());
     } catch (err) {
       setError(err.message);
