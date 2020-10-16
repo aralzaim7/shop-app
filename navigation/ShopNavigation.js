@@ -13,11 +13,12 @@ import ProductDetailsScreen from "../screens/shop/ProductDetailsScreen";
 import CartScreen from "../screens/shop/CartScreen";
 import OrdersScreen from "../screens/shop/OrdersScreen";
 import CustomButton from "../components/UI/CustomButton";
+import { useDispatch } from "react-redux";
 
 import UserProductsScreen from "../screens/user/UserProductsScreen";
 import EditProductScreen from "../screens/user/EditProductScreen";
 import AuthScreen from "../screens/user/AuthScreen";
-import { useDispatch } from "react-redux";
+import * as authActions from "../store/actions/auth";
 
 const ProductStack = createStackNavigator();
 

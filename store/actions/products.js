@@ -30,7 +30,6 @@ export const fetchProducts = () => {
       }
       const resData = await response.json();
       const loadedProducts = [];
-      console.log(loadedProducts);
 
       for (const key in resData) {
         loadedProducts.push(
@@ -44,7 +43,6 @@ export const fetchProducts = () => {
           )
         );
       }
-      console.log(loadedProducts);
 
       dispatch({
         type: SET_PRODUCTS,

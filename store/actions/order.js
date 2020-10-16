@@ -29,7 +29,6 @@ export const fetchOrders = () => {
           )
         );
       }
-      //console.log(resData);
 
       dispatch({ type: SET_ORDERS, orders: loadedOrders });
     } catch (err) {

@@ -71,9 +71,7 @@ const ProductOverView = (props) => {
   const loadProducts = useCallback(async () => {
     setError(null);
     setIsRefreshing(true);
-    //console.log("refreshing products..");
     try {
-      console.log(AsyncStorage.getItem("userData"));
       await dispatch(productActions.fetchProducts());
     } catch (err) {
       setError(err.message);
@@ -84,8 +82,6 @@ const ProductOverView = (props) => {
   // sayfaya her geldiğimde işletsin load products u derim
   useEffect(() => {
     const willFocusSub = props.navigation.addListener("focus", loadProducts);
-
-    //console.log(willFocusSub);
 
     return willFocusSub;
   }, [loadProducts]);

@@ -99,8 +99,6 @@ const UserProductsScreen = (props) => {
   useEffect(() => {
     const willFocusSub = props.navigation.addListener("focus", loadProducts);
 
-    //console.log(willFocusSub);
-
     return willFocusSub;
   }, [loadProducts]);
 
