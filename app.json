@@ -3,7 +3,7 @@
     "name": "Shop Application",
     "description": "This is a test shop application made with tutorial.",
     "slug": "shop-app",
-    "privacy": "public",
+    "privacy": "unlisted",
     "sdkVersion": "39.0.0",
     "platforms": ["ios", "android"],
     "version": "1.0.0",
